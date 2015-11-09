@@ -1,0 +1,222 @@
+<html>
+
+<head>
+	<style>
+		body {
+			color: black;
+			font-size: 30px;
+			font-weight: bold;
+		}
+	
+		table td {
+			width: 40px;
+			height: 40px;
+			background-color: green;
+			text-align: center;
+		}
+	
+		td.blue {
+			background-color: blue;
+		}
+	
+		td.red {
+			background-color: red;
+		}
+		
+		td.yellow {
+			background-color: yellow;
+		}
+		
+		td.orange {
+			background-color: orange;
+		}
+		
+		td.brown {
+			background-color: brown;
+		}
+		
+		td.white {
+			background-color: white !important;
+		}
+		
+		button {
+			padding: 15px;
+		}
+	</style>
+		<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js"></script>
+	<script>
+	var rows = 12;
+	var columns = 12;
+	
+	// Map values
+	// 0: Empty space
+	// 1: Lava
+	// 2: Wall
+	// 3: Key
+	// 4: Starting place
+	// 5: Finish
+	
+	var map = {
+		0:  [0,3,2,0,0,0,0,0,1,1,1,1],
+		1:  [0,0,2,0,0,0,0,0,1,4,5,1],
+		2:  [1,0,2,0,0,0,0,0,1,0,1,1],
+		3:  [0,0,2,2,2,2,2,0,1,0,0,0],
+		4:  [0,0,2,0,0,0,2,0,1,1,1,0],
+		5:  [0,0,2,0,0,0,2,0,0,0,0,0],
+		6:  [0,0,2,2,2,0,2,0,0,1,1,1],
+		7:  [0,0,0,0,0,0,0,0,0,0,0,0],
+		8:  [0,0,2,0,0,0,0,0,0,0,2,0],
+		9:  [0,0,2,0,0,0,0,0,2,0,0,1],
+		10: [0,0,2,0,0,0,0,0,0,0,0,0],
+		11: [0,0,2,0,0,0,0,0,2,0,1,0]
+	};
+	
+	
+	var playerX = 9;
+	var playerY = 1;
+	var lastPlayerX = 0;
+	var lastPlayerY = 0;
+	var hasKey = false;
+	var gametable = {};
+	
+		$(function() {
+			// Stuff to do after page loads
+			for (var i=0;i<rows;i++)
+			{ 
+				$('#gameTable').append('<tr></tr>');
+			}
+			
+			for (var i=0;i<columns;i++)
+			{
+				$('#gameTable tr').append('<td></td>')
+			}
+			
+			gameTable = document.getElementById('gameTable');
+			
+			rowCounter = 0;
+			for(var row in map) {
+				var thisRow = map[row];
+				for(var cellCounter=0; cellCounter<thisRow.length;cellCounter++) {
+					if(thisRow[cellCounter] == 1) {
+						$(gameTable.rows[rowCounter].cells[cellCounter]).addClass('red');
+					}
+					else if(thisRow[cellCounter] == 2) {
+						$(gameTable.rows[rowCounter].cells[cellCounter]).addClass('brown');
+					}
+					else if(thisRow[cellCounter] == 3) {
+						$(gameTable.rows[rowCounter].cells[cellCounter]).addClass('orange');
+					}
+					else if(thisRow[cellCounter] == 4) {
+						$(gameTable.rows[rowCounter].cells[cellCounter]).addClass('yellow');
+					}
+					else if(thisRow[cellCounter] == 5) {
+						$(gameTable.rows[rowCounter].cells[cellCounter]).addClass('blue');
+					}
+				}
+				rowCounter++;
+			}
+			
+			// Add player starting position
+			$(gameTable.rows[playerY].cells[playerX]).text('X');
+
+			// Start adding more lava!
+			setInterval(function() {
+				addRandomLava();
+			}, 8000);
+		});
+		
+		function goLeft() {
+			saveLastPosition();
+			playerX--;
+			reDraw();
+		}
+		
+		function goRight() {
+			saveLastPosition();
+			playerX++;
+			reDraw();
+		}
+		
+		function goUp() {
+			saveLastPosition();
+			playerY--;
+			reDraw();
+		}
+		
+		function goDown() {
+			saveLastPosition();
+			playerY++;
+			reDraw();
+		}
+		
+		function goToLastPosition() {
+			playerX = lastPlayerX;
+			playerY = lastPlayerY;
+		}
+		
+		function resetPlayerPosition() {
+			playerX = 9;
+			playerY = 1;
+			lastPlayerX = 0;
+			lastPlayerY = 0;
+		}
+		
+		function saveLastPosition() {
+			lastPlayerX = playerX;
+			lastPlayerY = playerY;
+		}
+		
+		function reDraw() {
+			if(playerX < 0 || playerY < 0 || playerX >= columns || playerY >= rows) {
+				goToLastPosition();
+			}
+			$('#gametable tr td').text('');
+			$(gameTable.rows[playerY].cells[playerX]).text('X');
+			detectHits();
+		}
+		
+		function detectHits() {
+			// Check for win
+			if($(gameTable.rows[playerY].cells[playerX]).hasClass('blue')) {
+				if(hasKey) {
+					alert('You win!');
+					$('#gametable tr td').addClass('white');
+				}
+				else {
+					alert('You do not have the key! You must find it first.');
+				}
+				
+			} else if($(gameTable.rows[playerY].cells[playerX]).hasClass('red')) {
+					alert('You died!');
+					resetPlayerPosition();
+					reDraw();	
+			} else if($(gameTable.rows[playerY].cells[playerX]).hasClass('orange')) {
+				alert('You picked up a key!');
+				hasKey = true;
+				$(gameTable.rows[playerY].cells[playerX]).removeClass('orange');
+			} else if($(gameTable.rows[playerY].cells[playerX]).hasClass('brown')) {
+				goToLastPosition();
+				reDraw();
+			}
+		}s
+
+		function addRandomLava() {
+			var randomX = Math.floor((Math.random() * 11));
+			var randomY = Math.floor((Math.random() * 11));
+			$(gameTable.rows[randomY].cells[randomX]).addClass('brown');
+		}
+	</script>
+</head>
+
+<body>
+		<h1>Seth's First Game</h1>
+		
+		<table id="gameTable">
+		</table>
+		<button onclick="goLeft();">Left</button>
+		<button onclick="goRight();">Right</button>
+		<button onclick="goUp();">Up</button>
+		<button onclick="goDown();">Down</button>
+</body>
+
+<html>
