@@ -16,7 +16,8 @@
 		}
 	
 		td.blue {
-			background-color: blue;
+			background: url(door.png);
+			background-size: 40px 40px;
 		}
 	
 		td.red {
@@ -48,17 +49,14 @@
 	var rows = 12;
 	var columns = 12;
 	
-	// Map values
+	// Map floor values
 	// 0: Empty space
 	// 1: Lava
 	// 2: Wall
-	// 3: Key
-	// 4: Starting place
-	// 5: Finish
 	
-	var map = {
-		0:  [0,3,2,0,0,0,0,0,1,1,1,1],
-		1:  [0,0,2,0,0,0,0,0,1,4,5,1],
+	var map_floor = {
+		0:  [0,0,2,0,0,0,0,0,1,1,1,1],
+		1:  [0,0,2,0,0,0,0,0,1,0,0,1],
 		2:  [1,0,2,0,0,0,0,0,1,0,1,1],
 		3:  [0,0,2,2,2,2,2,0,1,0,0,0],
 		4:  [0,0,2,0,0,0,2,0,1,1,1,0],
@@ -70,10 +68,30 @@
 		10: [0,0,2,0,0,0,0,0,0,0,0,0],
 		11: [0,0,2,0,0,0,0,0,2,0,1,0]
 	};
+
+	// Map object values
+	// 0: Nothing
+	// 1: Start
+	// 2: Key
+	// 9: Finish
 	
+	var map_objects = {
+		0:  [1,2,0,0,0,0,0,0,0,0,0,0],
+		1:  [0,0,0,0,0,0,0,0,0,0,0,0],
+		2:  [0,0,0,0,0,0,0,0,0,0,0,0],
+		3:  [0,0,0,0,0,0,0,0,0,0,0,0],
+		4:  [0,0,0,0,0,0,0,0,0,0,0,0],
+		5:  [0,0,0,0,0,0,0,0,0,0,0,0],
+		6:  [0,0,0,0,0,0,0,0,0,0,0,0],
+		7:  [0,0,0,0,0,0,0,0,0,0,0,0],
+		8:  [0,0,0,0,0,0,0,0,0,0,0,0],
+		9:  [0,0,0,0,0,0,0,0,0,0,0,0],
+		10: [0,0,0,0,0,0,0,0,0,0,0,0],
+		11: [0,0,0,0,0,0,0,0,0,0,0,9]
+	};
 	
-	var playerX = 9;
-	var playerY = 1;
+	var playerX = 0;
+	var playerY = 0;
 	var lastPlayerX = 0;
 	var lastPlayerY = 0;
 	var hasKey = false;
@@ -93,9 +111,10 @@
 			
 			gameTable = document.getElementById('gameTable');
 			
+			// Set up the floor
 			rowCounter = 0;
-			for(var row in map) {
-				var thisRow = map[row];
+			for(var row in map_floor) {
+				var thisRow = map_floor[row];
 				for(var cellCounter=0; cellCounter<thisRow.length;cellCounter++) {
 					if(thisRow[cellCounter] == 1) {
 						$(gameTable.rows[rowCounter].cells[cellCounter]).addClass('red');
@@ -103,13 +122,22 @@
 					else if(thisRow[cellCounter] == 2) {
 						$(gameTable.rows[rowCounter].cells[cellCounter]).addClass('brown');
 					}
-					else if(thisRow[cellCounter] == 3) {
-						$(gameTable.rows[rowCounter].cells[cellCounter]).addClass('orange');
-					}
-					else if(thisRow[cellCounter] == 4) {
+				}
+				rowCounter++;
+			}
+
+			// Set up the objects
+			rowCounter = 0;
+			for(var row in map_objects) {
+				var thisRow = map_objects[row];
+				for(var cellCounter=0; cellCounter<thisRow.length;cellCounter++) {
+					if(thisRow[cellCounter] == 1) {
 						$(gameTable.rows[rowCounter].cells[cellCounter]).addClass('yellow');
 					}
-					else if(thisRow[cellCounter] == 5) {
+					else if(thisRow[cellCounter] == 2) {
+						$(gameTable.rows[rowCounter].cells[cellCounter]).addClass('orange');
+					}
+					else if(thisRow[cellCounter] == 9) {
 						$(gameTable.rows[rowCounter].cells[cellCounter]).addClass('blue');
 					}
 				}
