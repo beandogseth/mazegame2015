@@ -4,6 +4,22 @@
 		"selected_items":
 		[
 			[
+				"badguy",
+				"badguyX"
+			],
+			[
+				"bad",
+				"badguyX"
+			],
+			[
+				"play",
+				"playerY"
+			],
+			[
+				"random",
+				"randomDirection"
+			],
+			[
 				"ran",
 				"randomX"
 			],
@@ -19,7 +35,7 @@
 			"file": "index.html",
 			"settings":
 			{
-				"buffer_size": 5386,
+				"buffer_size": 7281,
 				"line_ending": "Unix"
 			}
 		}
@@ -60,7 +76,7 @@
 	],
 	"find":
 	{
-		"height": 0.0
+		"height": 34.0
 	},
 	"find_in_files":
 	{
@@ -74,6 +90,8 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"lava",
+			"map"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -100,15 +118,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 5386,
+						"buffer_size": 7281,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								1678,
-								1678
+								6022,
+								6022
 							]
 						],
 						"settings":
@@ -117,7 +135,7 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 1260.0,
+						"translation.y": 3529.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 0,
@@ -128,7 +146,7 @@
 	],
 	"incremental_find":
 	{
-		"height": 0.0
+		"height": 23.0
 	},
 	"input":
 	{
@@ -165,7 +183,7 @@
 	"project": "mazegame2015.sublime-project",
 	"replace":
 	{
-		"height": 0.0
+		"height": 42.0
 	},
 	"save_all_on_build": true,
 	"select_file":

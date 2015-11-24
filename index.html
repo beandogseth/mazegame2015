@@ -94,6 +94,13 @@
 	var playerY = 0;
 	var lastPlayerX = 0;
 	var lastPlayerY = 0;
+
+	var badguyX = 4;
+	var badguyY = 4;
+
+	var badguy2X = 1;
+	var badguy2Y = 11;
+
 	var hasKey = false;
 	var gametable = {};
 	
@@ -150,7 +157,13 @@
 			// Start adding more lava!
 			setInterval(function() {
 				addRandomLava();
-			}, 8000);
+			}, 1000000);
+
+			setInterval(function() {
+				moveBadguy();
+				moveBadguy2();
+				reDraw();
+			}, 1000);
 		});
 		
 		function goLeft() {
@@ -183,8 +196,8 @@
 		}
 		
 		function resetPlayerPosition() {
-			playerX = 9;
-			playerY = 1;
+			playerX = 0;
+			playerY = 0;
 			lastPlayerX = 0;
 			lastPlayerY = 0;
 		}
@@ -200,6 +213,8 @@
 			}
 			$('#gametable tr td').text('');
 			$(gameTable.rows[playerY].cells[playerX]).text('X');
+			$(gameTable.rows[badguyY].cells[badguyX]).text('O');
+			$(gameTable.rows[badguy2Y].cells[badguy2X]).text('Q');
 			detectHits();
 		}
 		
@@ -215,9 +230,17 @@
 				}
 				
 			} else if($(gameTable.rows[playerY].cells[playerX]).hasClass('red')) {
-					alert('You died!');
-					resetPlayerPosition();
-					reDraw();	
+				alert('You fell into lava!');
+				resetPlayerPosition();
+				reDraw();	
+			} else if(playerY == badguyY && playerX == badguyX) {
+				alert('oh no the badguy killed you.');
+				resetPlayerPosition();
+				reDraw();
+			} else if(playerY == badguy2Y && playerX == badguy2X) {
+				alert('oh no the OTHER badguy killed you.');
+				resetPlayerPosition();
+				reDraw();
 			} else if($(gameTable.rows[playerY].cells[playerX]).hasClass('orange')) {
 				alert('You picked up a key!');
 				hasKey = true;
@@ -226,13 +249,77 @@
 				goToLastPosition();
 				reDraw();
 			}
-		}s
+		}
 
 		function addRandomLava() {
-			var randomX = Math.floor((Math.random() * 11));
-			var randomY = Math.floor((Math.random() * 11));
+			var randomX = getRandomNumber(0, 11);
+			var randomY = getRandomNumber(0, 11);
 			$(gameTable.rows[randomY].cells[randomX]).addClass('brown');
 		}
+
+		function moveBadguy() {
+			// Move him a random direction
+			var randomDirection = getRandomNumber(0, 3);
+			if(randomDirection == 0) {
+				badguyY--;
+			} else if(randomDirection == 1) {
+				badguyX++; 
+			} else if(randomDirection == 2) {
+				badguyY++;
+			} else if(randomDirection == 3) {
+				badguyX--;
+			} else {
+				alert('What the heck? That is not right.');
+			}
+
+			// Don't let him go off the map
+			if(badguyX > 11) {
+				badguyX = 11;
+			}
+			if(badguyX < 0) {
+				badguyX = 0;
+			}
+			if(badguyY > 11) {
+				badguyY = 11;
+			}
+			if(badguyY < 0) {
+				badguyY = 0;
+			}
+		}
+
+		function moveBadguy2() {
+			// Move him a random direction
+			var randomDirection = getRandomNumber(0, 3);
+			if(randomDirection == 0) {
+				badguy2Y--;
+			} else if(randomDirection == 1) {
+				badguy2X++; 
+			} else if(randomDirection == 2) {
+				badguy2Y++;
+			} else if(randomDirection == 3) {
+				badguy2X--;
+			} else {
+				alert('What the heck? That is not right.');
+			}
+
+			// Don't let him go off the map
+			if(badguy2X > 11) {
+				badguy2X = 11;
+			}
+			if(badguy2X < 0) {
+				badguy2X = 0;
+			}
+			if(badguy2Y > 11) {
+				badguy2Y = 11;
+			}
+			if(badguy2Y < 0) {
+				badguy2Y = 0;
+			}
+		}
+
+	function getRandomNumber(min, max) {
+		return Math.round( Math.random() * (max - min) + min );
+	}
 	</script>
 </head>
 
