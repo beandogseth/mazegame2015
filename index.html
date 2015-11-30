@@ -101,6 +101,9 @@
 	var badguy2X = 1;
 	var badguy2Y = 11;
 
+	var monsterX = 5;
+	var monsterY = 7;
+
 	var hasKey = false;
 	var gametable = {};
 	
@@ -164,6 +167,10 @@
 				moveBadguy2();
 				reDraw();
 			}, 1000);
+
+			setInterval(function() {
+				moveMonster();
+			}, 2500);
 		});
 		
 		function goLeft() {
@@ -215,6 +222,7 @@
 			$(gameTable.rows[playerY].cells[playerX]).text('X');
 			$(gameTable.rows[badguyY].cells[badguyX]).text('O');
 			$(gameTable.rows[badguy2Y].cells[badguy2X]).text('Q');
+			$(gameTable.rows[monsterY].cells[monsterX]).text('U');
 			detectHits();
 		}
 		
@@ -240,6 +248,12 @@
 			} else if(playerY == badguy2Y && playerX == badguy2X) {
 				alert('oh no the OTHER badguy killed you.');
 				resetPlayerPosition();
+				reDraw();
+			} else if(playerY == monsterY && playerX == monsterX) {
+				alert('uh o the the monster got u!');
+				resetPlayerPosition();
+				monsterX = 5;
+				monsterY = 7;
 				reDraw();
 			} else if($(gameTable.rows[playerY].cells[playerX]).hasClass('orange')) {
 				alert('You picked up a key!');
@@ -316,6 +330,35 @@
 				badguy2Y = 0;
 			}
 		}
+
+	function moveMonster() {
+		if(playerX < monsterX) {
+			monsterX--;
+		}
+		if(playerX > monsterX) {
+			monsterX++;
+		}
+		if(playerY < monsterY) {
+			monsterY--;
+		}
+		if(playerY > monsterY) {
+			monsterY++;
+		}
+
+		// Don't let him go off the map
+		if(monsterX > 11) {
+			monsterX = 11;
+		}
+		if(monsterX < 0) {
+			monsterX = 0;
+		}
+		if(monsterY > 11) {
+			monsterY = 11;
+		}
+		if(monsterY < 0) {
+			monsterY = 0;
+		}
+	}
 
 	function getRandomNumber(min, max) {
 		return Math.round( Math.random() * (max - min) + min );
