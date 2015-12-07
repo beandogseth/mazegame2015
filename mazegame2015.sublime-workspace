@@ -4,6 +4,42 @@
 		"selected_items":
 		[
 			[
+				"has",
+				"hasKey"
+			],
+			[
+				"col",
+				"columns_limit"
+			],
+			[
+				"rows",
+				"rows_limit"
+			],
+			[
+				"mons",
+				"monsterY"
+			],
+			[
+				"player",
+				"playerY"
+			],
+			[
+				"most",
+				"monsterX"
+			],
+			[
+				"monster",
+				"monsterX"
+			],
+			[
+				"mo",
+				"monsterY"
+			],
+			[
+				"mon",
+				"monsterX"
+			],
+			[
 				"badguy",
 				"badguyX"
 			],
@@ -35,7 +71,7 @@
 			"file": "index.html",
 			"settings":
 			{
-				"buffer_size": 7281,
+				"buffer_size": 9455,
 				"line_ending": "Unix"
 			}
 		}
@@ -76,7 +112,7 @@
 	],
 	"find":
 	{
-		"height": 34.0
+		"height": 23.0
 	},
 	"find_in_files":
 	{
@@ -118,15 +154,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 7281,
+						"buffer_size": 9455,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								6022,
-								6022
+								5388,
+								5388
 							]
 						],
 						"settings":
@@ -135,7 +171,7 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 3529.0,
+						"translation.y": 2952.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 0,
