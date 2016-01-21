@@ -86,7 +86,7 @@
 	// 9: Finish
 	
 	var map_objects = {
-		0:  [1,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+		0:  [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
 		1:  [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
 		2:  [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
 		3:  [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
@@ -121,6 +121,9 @@
 
 	var monsterX = 5;
 	var monsterY = 7;
+
+	var bunnyX = 13;
+	var bunnyY = 15;
 
 	var hasKey = false;
 	var gametable = {};
@@ -178,7 +181,7 @@
 			// Start adding more lava!
 			setInterval(function() {
 				addRandomLava();
-			}, 1000000);
+			}, 10000);
 
 			setInterval(function() {
 				moveBadguy();
@@ -189,8 +192,13 @@
 			setInterval(function() {
 				moveMonster();
 			}, 3500);
+
+			setInterval(function() {
+				movebunny();	
+			}, 1500);
+
 		});
-		
+
 		function goLeft() {
 			saveLastPosition();
 			playerX--;
@@ -226,7 +234,7 @@
 			lastPlayerX = 0;
 			lastPlayerY = 0;
 			hasKey = false;
-			$(gameTable.rows[0].cells[1]).addClass('orange');
+			//$(gameTable.rows[0].cells[1]).addClass('orange');
 
 		}
 		
@@ -244,6 +252,11 @@
 			$(gameTable.rows[badguyY].cells[badguyX]).text('O');
 			$(gameTable.rows[badguy2Y].cells[badguy2X]).text('Q');
 			$(gameTable.rows[monsterY].cells[monsterX]).text('U');
+
+			if(hasKey == false) {
+				$(gameTable.rows[bunnyY].cells[bunnyX]).text('S');				
+			}
+
 			detectHits();
 		}
 		
@@ -253,6 +266,7 @@
 				if(hasKey) {
 					alert('You win!');
 					$('#gametable tr td').addClass('white');
+					resetPlayerPosition();
 				}
 				else {
 					alert('You do not have the key! You must find it first.');
@@ -282,6 +296,13 @@
 				$(gameTable.rows[playerY].cells[playerX]).removeClass('orange');
 			} else if($(gameTable.rows[playerY].cells[playerX]).hasClass('brown')) {
 				goToLastPosition();
+				reDraw();
+			} else if(playerY == bunnyY && playerX == bunnyX) {
+				alert('you got the bunny!');
+				hasKey = true;
+				$(gameTable.rows[bunnyY].cells[bunnyX]).text('X');
+				bunnyX = 9;
+				bunnyY = 9;
 				reDraw();
 			}
 		}
@@ -378,6 +399,36 @@
 		}
 		if(monsterY < 0) {
 			monsterY = 0;
+		}
+	}
+
+
+	function movebunny() {
+		if(playerX < bunnyX) {
+			bunnyX++;
+		}
+		if(playerX > bunnyX) {
+			bunnyX--;
+		}
+		if(playerY < bunnyY) {
+			bunnyY++;
+		}
+		if(playerY > bunnyY) {
+			bunnyY--;
+		}
+
+		// Don't let him go off the map
+		if(bunnyX > rows_limit) {
+			bunnyX = rows_limit;
+		}
+		if(bunnyX < 0) {
+			bunnyX = 0;
+		}
+		if(bunnyY > columns_limit) {
+			bunnyY = columns_limit;
+		}
+		if(bunnyY < 0) {
+			bunnyY = 0;
 		}
 	}
 
