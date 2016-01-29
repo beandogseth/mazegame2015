@@ -4,6 +4,14 @@
 		"selected_items":
 		[
 			[
+				"moveb",
+				"movebunny"
+			],
+			[
+				"bu",
+				"bunnyX"
+			],
+			[
 				"has",
 				"hasKey"
 			],
@@ -71,7 +79,7 @@
 			"file": "index.html",
 			"settings":
 			{
-				"buffer_size": 9455,
+				"buffer_size": 10304,
 				"line_ending": "Unix"
 			}
 		}
@@ -112,7 +120,7 @@
 	],
 	"find":
 	{
-		"height": 23.0
+		"height": 34.0
 	},
 	"find_in_files":
 	{
@@ -154,15 +162,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 9455,
+						"buffer_size": 10304,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								5388,
-								5388
+								7274,
+								7274
 							]
 						],
 						"settings":
@@ -171,7 +179,7 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 2952.0,
+						"translation.y": 60585.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 0,

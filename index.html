@@ -7,6 +7,12 @@
 			font-size: 30px;
 			font-weight: bold;
 		}
+
+		#messageBox {
+			font-family: sans-serif;
+			font-size: 15px;
+			float: right;
+		}
 	
 		table td {
 			width: 30px;
@@ -181,7 +187,7 @@
 			// Start adding more lava!
 			setInterval(function() {
 				addRandomLava();
-			}, 10000);
+			}, 100000);
 
 			setInterval(function() {
 				moveBadguy();
@@ -191,11 +197,39 @@
 
 			setInterval(function() {
 				moveMonster();
-			}, 3500);
+			}, 3750);
 
 			setInterval(function() {
 				movebunny();	
 			}, 1500);
+
+			// Bind the arrow keys
+			$(document).keydown(function(e) {
+			    switch(e.which) {
+			        case 37: // left
+			        goLeft();
+			        break;
+                    
+			        case 38: // up
+			        goUp();
+			        break;
+			        
+			        case 39: // right
+			        goRight();
+			        break;
+			        
+			        case 40: // down
+			        goDown();
+			        break;
+
+			        case 32: // space
+			        goRandom();
+			        break;
+
+			        default: return; // exit this handler for other keys
+			    }
+			    e.preventDefault(); // prevent the default action (scroll / move caret)
+			});
 
 		});
 
@@ -222,6 +256,13 @@
 			playerY++;
 			reDraw();
 		}
+
+		function goRandom() {
+			// Teleport somewhere crazy!
+			playerX = getRandomNumber(0, 19);
+			playerY = getRandomNumber(0, 19);
+
+		}
 		
 		function goToLastPosition() {
 			playerX = lastPlayerX;
@@ -234,7 +275,7 @@
 			lastPlayerX = 0;
 			lastPlayerY = 0;
 			hasKey = false;
-			//$(gameTable.rows[0].cells[1]).addClass('orange');
+			
 
 		}
 		
@@ -264,41 +305,41 @@
 			// Check for win
 			if($(gameTable.rows[playerY].cells[playerX]).hasClass('blue')) {
 				if(hasKey) {
-					alert('You win!');
+					showMessage('You win!');
 					$('#gametable tr td').addClass('white');
 					resetPlayerPosition();
 				}
 				else {
-					alert('You do not have the key! You must find it first.');
+					showMessage('You do not have the key! You must find it first.');
 				}
 				
 			} else if($(gameTable.rows[playerY].cells[playerX]).hasClass('red')) {
-				alert('You fell into lava!');
+				showMessage('You fell into lava!');
 				resetPlayerPosition();
 				reDraw();	
 			} else if(playerY == badguyY && playerX == badguyX) {
-				alert('oh no the badguy killed you.');
+				showMessage('oh no the badguy killed you.');
 				resetPlayerPosition();
 				reDraw();
 			} else if(playerY == badguy2Y && playerX == badguy2X) {
-				alert('oh no the OTHER badguy killed you.');
+				showMessage('oh no the OTHER badguy killed you.');
 				resetPlayerPosition();
 				reDraw();
 			} else if(playerY == monsterY && playerX == monsterX) {
-				alert('uh o the the monster got u!');
+				showMessage('uh o the the monster got u!');
 				resetPlayerPosition();
 				monsterX = 5;
 				monsterY = 7;
 				reDraw();
 			} else if($(gameTable.rows[playerY].cells[playerX]).hasClass('orange')) {
-				alert('You picked up a key!');
+				showMessage('You picked up a key!');
 				hasKey = true;
 				$(gameTable.rows[playerY].cells[playerX]).removeClass('orange');
 			} else if($(gameTable.rows[playerY].cells[playerX]).hasClass('brown')) {
 				goToLastPosition();
 				reDraw();
 			} else if(playerY == bunnyY && playerX == bunnyX) {
-				alert('you got the bunny!');
+				showMessage('you got the bunny!');
 				hasKey = true;
 				$(gameTable.rows[bunnyY].cells[bunnyX]).text('X');
 				bunnyX = 9;
@@ -325,7 +366,7 @@
 			} else if(randomDirection == 3) {
 				badguyX--;
 			} else {
-				alert('What the heck? That is not right.');
+				showMessage('What the heck? That is not right.');
 			}
 
 			// Don't let him go off the map
@@ -355,7 +396,7 @@
 			} else if(randomDirection == 3) {
 				badguy2X--;
 			} else {
-				alert('What the heck? That is not right.');
+				showMessage('What the heck? That is not right.');
 			}
 
 			// Don't let him go off the map
@@ -435,18 +476,23 @@
 	function getRandomNumber(min, max) {
 		return Math.round( Math.random() * (max - min) + min );
 	}
+
+	function showMessage(message) {
+		$('#messageBox').text(message);
+	}
 	</script>
 </head>
 
-<body>
-		<h3>Seth's First Game</h3>
-		
+<body>	
 		<table id="gameTable">
 		</table>
 		<button onclick="goLeft();">Left</button>
 		<button onclick="goRight();">Right</button>
 		<button onclick="goUp();">Up</button>
 		<button onclick="goDown();">Down</button>
+		<div id="messageBox">
+			Welcome to Seth's game!
+		</div>
 </body>
 
 <html>
